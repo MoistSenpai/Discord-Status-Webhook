@@ -19,7 +19,7 @@ const app = express();
 app.use(express.static(`${__dirname}/Images`));
 app.listen(port, () => console.log(`App listening on port ${port}`));
 // Send status function
-const sendStatus = async (m?: Message) => {
+const sendStatus = async () => {
 	let d: any = await getData();
 	let ss = await getSs();
 
@@ -63,14 +63,11 @@ const sendStatus = async (m?: Message) => {
 		image: {
 			url: ss.c
 		},
+		thumbnail: {
+			url: ss.f
+		},
 		color: getColor(d.status.indicator)
 	};
-
-	// Handle edit
-	if (m)
-		return m.edit({
-			embeds: [ em ]
-		});
 
 	await hook.send({
 		embeds: [ em ]
@@ -101,12 +98,12 @@ const getColor = (type: string) => {
 // Gets screenshot
 const getSs = async () => {
 	// F
-	// await screenshotElem(`div.components-section.font-regular`, `status`);
+	await screenshotElem(`div.components-section.font-regular`, `status`);
 	// C
 	await screenshotElem(`div.custom-metrics-container`, `metrics`);
 
 	return {
-		// f: `http://${host}:${port}/status.jpg`,
+		f: `http://${host}:${port}/status.jpg`,
 		c: `http://${host}:${port}/metrics.jpg`
 	};
 };
@@ -141,8 +138,8 @@ const _run = async () => {
 
 	console.log(`Webhook Ready`);
 
-	// Wait an hour and sendAgain
-	setInterval(() => sendStatus(m), 1e3 * 60 * 60);
+	// Wait an hour and send again
+	setInterval(() => sendStatus(), 5e3);
 };
 
 _run();

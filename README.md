@@ -1,4 +1,4 @@
-# Neptune-TS
+# Discord-API Webhook
 
 Discord Webhook that grabs the status and other data from [Discord Status](https://status.discordapp.com/). 
 
