@@ -1,6 +1,6 @@
 # Neptune-TS
 
-Discord Webhook that grabs the status and other data from Discord API status.
+Discord Webhook that grabs the status and other data from [Discord Status](https://status.discordapp.com/). A guide for making a webhook can be found [here](https://gist.github.com/jagrosh/5b1761213e33fc5b54ec7f6379034a22)
 
 ## Getting Started
 
@@ -15,12 +15,14 @@ cd Discord-API-Webhook
 
 * TypeScript 3.6.0 or newer
 
+* Discord Webhook
+
 ### Installing
 
 Remove 'example.' from example.config.ts and fill it in.
 ```ts
 {
-    url: `URL`, // Webhook URL
+	url: `URL`, // Webhook URL
 	token: 'TOKEN', // Webhook token
 	id: 'ID', // Webhook ID
 	guildId: 'GID', // Guild ID
