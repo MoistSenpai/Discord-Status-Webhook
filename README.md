@@ -2,6 +2,7 @@
 
 Discord bot that grabs the status and other data from [Discord Status](https://status.discordapp.com/). 
 
+A guide for creating a webhook can be found [here](https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks).
 
 ## Getting Started
 
@@ -17,6 +18,8 @@ cd Discord-Status-Webhook
 * TypeScript 3.6.0 or newer
 
 * Discord Bot Token
+
+* Discord Webhook
 
 ### Installing
 
