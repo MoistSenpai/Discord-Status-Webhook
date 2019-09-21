@@ -21,6 +21,7 @@ app.listen(port, () => console.log(`App listening on port ${port}`));
 // Send status function
 const sendStatus = async (m?: Message) => {
 	let d: any = await getData();
+	let ss = await getSs();
 
 	// The data to send
 	let em: MessageEmbedOptions = {
@@ -59,9 +60,8 @@ const sendStatus = async (m?: Message) => {
 				)}\``
 			}
 		],
-
 		image: {
-			url: await getSs()
+			url: ss.c
 		},
 		color: getColor(d.status.indicator)
 	};
@@ -100,6 +100,18 @@ const getColor = (type: string) => {
 };
 // Gets screenshot
 const getSs = async () => {
+	// F
+	// await screenshotElem(`div.components-section.font-regular`, `status`);
+	// C
+	await screenshotElem(`div.custom-metrics-container`, `metrics`);
+
+	return {
+		// f: `http://${host}:${port}/status.jpg`,
+		c: `http://${host}:${port}/metrics.jpg`
+	};
+};
+// Make Screenshit
+const screenshotElem = async (s: string, name: string) => {
 	let browser = await p.launch();
 	let page = await browser.newPage();
 
@@ -109,10 +121,10 @@ const getSs = async () => {
 		const element = document.querySelector(selector);
 		const { x, y, width, height } = element.getBoundingClientRect();
 		return { left: x, top: y, width, height, id: element.id };
-	}, `div.components-section.font-regular`);
+	}, s);
 
 	page.screenshot({
-		path: `./Images/status.jpg`,
+		path: `./Images/${name}.jpg`,
 		clip: {
 			x: rect.left - 0,
 			y: rect.top - 0,
@@ -120,9 +132,8 @@ const getSs = async () => {
 			height: rect.height + 0 * 2
 		}
 	});
-
-	return `http://${host}:${port}/status.jpg`;
 };
+
 // Run
 const _run = async () => {
 	// Send status
