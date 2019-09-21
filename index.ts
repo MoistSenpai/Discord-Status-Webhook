@@ -2,12 +2,22 @@
 import { WebhookClient, Message, MessageEmbedOptions } from 'discord.js';
 import request from 'request';
 import moment from 'moment';
+import p from 'puppeteer';
+import express from 'express';
 
 import config from './config';
 
 // Create webhook client
 const hook: WebhookClient = new WebhookClient(config.id, config.token);
+// Express port
+const port = config.port;
+const host = config.host;
+// Express app
+const app = express();
 
+// Setup express
+app.use(express.static(`${__dirname}/Images`));
+app.listen(port, () => console.log(`App listening on port ${port}`));
 // Send status function
 const sendStatus = async (m?: Message) => {
 	let d: any = await getData();
@@ -49,8 +59,9 @@ const sendStatus = async (m?: Message) => {
 				)}\``
 			}
 		],
+
 		image: {
-			url: `https://i.imgur.com/XumK1By.png`
+			url: await getSs()
 		},
 		color: getColor(d.status.indicator)
 	};
@@ -86,6 +97,31 @@ const getColor = (type: string) => {
 		case 'ciritcal':
 			return 16711685;
 	}
+};
+// Gets screenshot
+const getSs = async () => {
+	let browser = await p.launch();
+	let page = await browser.newPage();
+
+	await page.goto(`https://status.discordapp.com/`, { waitUntil: 'networkidle0' });
+
+	let rect = await page.evaluate((selector) => {
+		const element = document.querySelector(selector);
+		const { x, y, width, height } = element.getBoundingClientRect();
+		return { left: x, top: y, width, height, id: element.id };
+	}, `div.components-section.font-regular`);
+
+	page.screenshot({
+		path: `./Images/status.jpg`,
+		clip: {
+			x: rect.left - 0,
+			y: rect.top - 0,
+			width: rect.width + 0 * 2,
+			height: rect.height + 0 * 2
+		}
+	});
+
+	return `http://${host}:${port}/status.jpg`;
 };
 // Run
 const _run = async () => {
