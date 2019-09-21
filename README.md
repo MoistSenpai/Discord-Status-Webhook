@@ -1,14 +1,13 @@
-# Discord-API Webhook
+# Discord-Status Bot
 
-Discord Webhook that grabs the status and other data from [Discord Status](https://status.discordapp.com/). 
+Discord bot that grabs the status and other data from [Discord Status](https://status.discordapp.com/). 
 
-A guide for making a webhook can be found [here](https://gist.github.com/jagrosh/5b1761213e33fc5b54ec7f6379034a22)
 
 ## Getting Started
 
 ```
-git clone https://github.com/MoistSenpai/Discord-API-Webhook
-cd Discord-API-Webhook
+git clone https://github.com/MoistSenpai/Discord-Status-Bot
+cd Discord-Status-Bot
 ```
 
 ### Prerequisites
@@ -17,17 +16,14 @@ cd Discord-API-Webhook
 
 * TypeScript 3.6.0 or newer
 
-* Discord Webhook
+* Discord Bot Token
 
 ### Installing
 
 Remove 'example.' from example.config.ts and fill it in.
 ```ts
 {
-	url: `URL`, // Webhook URL
-	token: 'TOKEN', // Webhook token
-	id: 'ID', // Webhook ID
-	guildId: 'GID', // Guild ID
+	token: 'TOKEN', // Bot token
 	channelId: 'CID', // Channel ID
 	host: 'HOST', // Host ip
 	port: 6980 // Express webserver port
@@ -40,7 +36,7 @@ Install required dependencies.
 npm i
 ```
 
-Running the webhook.
+Running the bot.
 
 ```
 ts-node index.ts

@@ -1,5 +1,5 @@
 // Import libs
-import { WebhookClient, Message, MessageEmbedOptions } from 'discord.js';
+import { Message, Client, Channel } from 'discord.js';
 import request from 'request';
 import moment from 'moment';
 import p from 'puppeteer';
@@ -8,7 +8,7 @@ import express from 'express';
 import config from './config';
 
 // Create webhook client
-const hook: WebhookClient = new WebhookClient(config.id, config.token);
+const client: Client = new Client();
 // Express port
 const port = config.port;
 const host = config.host;
@@ -19,12 +19,13 @@ const app = express();
 app.use(express.static(`${__dirname}/Images`));
 app.listen(port, () => console.log(`App listening on port ${port}`));
 // Send status function
-const sendStatus = async () => {
+const sendStatus = async (m?: Message) => {
 	let d: any = await getData();
 	let ss = await getSs();
+	let channel: any = client.channels.get(config.channelId);
 
 	// The data to send
-	let em: MessageEmbedOptions = {
+	let em = {
 		description: `**Status** -> \`${d.status.description}\``,
 		fields: [
 			// API
@@ -68,9 +69,13 @@ const sendStatus = async () => {
 		},
 		color: getColor(d.status.indicator)
 	};
+	if (m)
+		return m.edit({
+			emed: em
+		});
 
-	await hook.send({
-		embeds: [ em ]
+	await channel.send({
+		embed: em
 	});
 };
 // Get JSON data
@@ -136,10 +141,11 @@ const _run = async () => {
 	// Send status
 	let m = await sendStatus();
 
-	console.log(`Webhook Ready`);
+	client.login(config.token);
+	client.on('ready', () => console.log(`Bot ready`));
 
 	// Wait an hour and send again
-	setInterval(() => sendStatus(), 5e3);
+	setInterval(() => sendStatus(m), 5e3);
 };
 
 _run();
