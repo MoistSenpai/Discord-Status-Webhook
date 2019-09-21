@@ -1,5 +1,5 @@
 // Import libs
-import { WebhookClient, Client, MessageEmbedOptions } from 'discord.js';
+import { WebhookClient, Client, MessageEmbedOptions, Message } from 'discord.js';
 import request from 'request';
 import moment from 'moment';
 import p from 'puppeteer';
@@ -22,7 +22,7 @@ app.use(express.static(`${__dirname}/Images`));
 app.listen(port, () => console.log(`App listening on port ${port}`));
 
 // Setup bot
-client.login(config.token);
+client.login(config.bToken);
 client.on('ready', () => console.log(`Bot logged in as ${(client.user as any).tag}`));
 
 // Send status function
@@ -141,16 +141,14 @@ const screenshotElem = async (s: string, name: string) => {
 // Run
 const _run = async () => {
 	// Send status
-	sendStatus();
+	await sendStatus();
 
 	// Wait an hour and send again
 	setInterval(async () => {
 		let channel: any = client.channels.get(config.channelId);
-		let fetched = await channel.fetchMessages({ limit: 99 });
-		channel.bulkDelete(fetched);
-
-		sendStatus();
-	}, 5e3);
+		await channel.messages.map((m: Message) => m.delete({ timeout: 100 }));
+		await sendStatus();
+	}, 1e3 * 60 * 60);
 };
 
 _run();
