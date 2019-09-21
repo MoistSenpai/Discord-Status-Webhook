@@ -3,7 +3,7 @@ import { WebhookClient, Client, MessageEmbedOptions, Message } from 'discord.js'
 import request from 'request';
 import moment from 'moment';
 import p from 'puppeteer';
-import express from 'express';
+import fi from 'file-url';
 
 import config from './config';
 
@@ -11,15 +11,6 @@ import config from './config';
 const hook: WebhookClient = new WebhookClient(config.id, config.token);
 // Create bot client
 const client: Client = new Client();
-// Express port
-const port = config.port;
-const host = config.host;
-// Express app
-const app = express();
-
-// Setup express
-app.use(express.static(`${__dirname}/Images`));
-app.listen(port, () => console.log(`App listening on port ${port}`));
 
 // Setup bot
 client.login(config.bToken);
@@ -110,8 +101,8 @@ const getSs = async () => {
 	await screenshotElem(`div.custom-metrics-container`, `metrics`);
 
 	return {
-		f: `http://${host}:${port}/status.jpg`,
-		c: `http://${host}:${port}/metrics.jpg`
+		f: fi(`./Images/status.jpg`),
+		c: fi(`./Images/metrics.jpg`)
 	};
 };
 // Make Screenshit
