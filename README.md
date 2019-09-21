@@ -1,4 +1,4 @@
-# Discord-Status Bot
+# Discord-Status Webhook
 
 Discord bot that grabs the status and other data from [Discord Status](https://status.discordapp.com/). 
 
@@ -6,8 +6,8 @@ Discord bot that grabs the status and other data from [Discord Status](https://s
 ## Getting Started
 
 ```
-git clone https://github.com/MoistSenpai/Discord-Status-Bot
-cd Discord-Status-Bot
+git clone https://github.com/MoistSenpai/Discord-Status-Webhook
+cd Discord-Status-Webhook
 ```
 
 ### Prerequisites
@@ -23,8 +23,8 @@ cd Discord-Status-Bot
 Remove 'example.' from example.config.ts and fill it in.
 ```ts
 {
-	token: 'TOKEN', // Bot token
-	channelId: 'CID', // Channel ID
+	token: 'TOKEN', // Webhook token
+	id: 'ID', // Webhook ID
 	host: 'HOST', // Host ip
 	port: 6980 // Express webserver port
 }
