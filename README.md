@@ -1,6 +1,8 @@
 # Neptune-TS
 
-Discord Webhook that grabs the status and other data from [Discord Status](https://status.discordapp.com/). A guide for making a webhook can be found [here](https://gist.github.com/jagrosh/5b1761213e33fc5b54ec7f6379034a22)
+Discord Webhook that grabs the status and other data from [Discord Status](https://status.discordapp.com/). 
+
+A guide for making a webhook can be found [here](https://gist.github.com/jagrosh/5b1761213e33fc5b54ec7f6379034a22)
 
 ## Getting Started
 
